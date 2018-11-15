@@ -1,0 +1,31 @@
+.quote{
+    font: 400 72px "Arizonia", Helvetica, sans-serif;
+    color: #F4654F;
+    text-align: center;
+}
+.post-title{
+    color: #F4654F;
+    text-align: center;
+}
+.post-link{
+    
+    text-align: center;
+    text-transform: capitalize;
+    width: 100%;
+   
+    
+}
+.read-link{
+    display:block;
+    text-align: center;
+    text-transform: capitalize;
+    width:100%;
+    margin: 3px auto;
+    padding:0px;
+}
+body{
+    margin-top:100px
+}
+.pagination{
+    justify-content: center;
+}

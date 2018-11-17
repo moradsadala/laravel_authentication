@@ -17,6 +17,10 @@ class Post extends Model
         return $this->belongsToMany('App\Tag','post_tag','post_id','tag_id')->withTimestamps(); //To add time stamps with any new record
     }
 
+    public function user(){
+        return $this->belongsTo('App\User');
+    }
+
     //Mutator to set post title in lowercase
 
     public function setTitleAttribute($value){

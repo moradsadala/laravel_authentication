@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use App\Post;
 use App\Like;
 use App\Tag;
+use Auth;
 use Illuminate\Http\Request as Request;
 
 class PostController extends Controller
@@ -42,11 +43,15 @@ class PostController extends Controller
             'title'=>'required|min:5',
             'content'=>'required|min:10'
         ]);
+        $user = Auth::user();
+        if(!$user){
+            return redirect()->back();
+        }
         $post = new Post([
             'title'=> $request->input('title'),
             'content' => $request->input('content')
         ]);
-        $post -> save();
+        $user->posts()->save($post);
         $post->tags()->attach($request->input('tags') === null ? [] : $request->input('tags'));
         return redirect()->route('admin')->with('info','New post is added');
     }
@@ -80,10 +85,17 @@ class PostController extends Controller
         return redirect()->route('admin')->with('info','The post is deleted successfully');
     }
     public function deleteAll(){
-        Post::all()->each->delete();
-        Post::all()->each->likes()->delete();
+        $posts = Post::all();
+        foreach($posts as $post){
+            if($post != null){
+                $post->delete();
+                $post->likes()->delete();
+            }
+        }
        
         return redirect()->route('admin');
+        
+        
     }
 
     

@@ -70,3 +70,7 @@ Route::group(['prefix'=>'admin'],function(){
         'as'=>'delete_all_posts'
         ]);
 });
+
+Auth::routes();
+
+

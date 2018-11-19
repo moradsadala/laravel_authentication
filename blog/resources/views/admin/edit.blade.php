@@ -26,7 +26,7 @@
                 </div>
                 @foreach($tags as $tag)
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="{{$tag->id}}" name="tags[]" id="defaultCheck1" {{$post->tags()->contain($tag->id)?'cheacked':''}}>
+                        <input class="form-check-input" type="checkbox" value="{{$tag->id}}" name="tags[]" id="defaultCheck1"  {{$post->tags->contains($tag->id)? 'checked':'' }}{{--to cheack the tags perviously selected --}} > 
                         <label class="form-check-label" for="defaultCheck1">
                         {{$tag->name}}
                         </label>

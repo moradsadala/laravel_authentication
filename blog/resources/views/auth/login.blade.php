@@ -3,6 +3,11 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
+        @if(Session::has('fail'))
+        <div class="col-md-8 alert alert-danger">
+            {{Session::get('fail')}}
+        </div>
+        @endif
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Login') }}</div>

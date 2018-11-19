@@ -63,14 +63,17 @@ Route::group(['prefix'=>'admin'],function(){
     Route::get('delete/{id}',[
         'uses'=>'PostController@deletePost',
         'as'=>'delete_admin'
-        ]);
+    ]);
 
     Route::get('delete',[
         'uses'=>'PostController@deleteAll',
         'as'=>'delete_all_posts'
-        ]);
+    ]);
 });
 
 Auth::routes();
-
-
+//Overwrite route
+Route::post('/login',[
+    'uses'=>'SignInController@signIn',
+    'as'=>'login'
+]); //this route overwrite other route in Auth::routes()

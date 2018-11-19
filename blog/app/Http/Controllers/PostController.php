@@ -7,6 +7,7 @@ use App\Post;
 use App\Like;
 use App\Tag;
 use Auth;
+use Gate;
 use Illuminate\Http\Request as Request;
 
 class PostController extends Controller
@@ -58,7 +59,7 @@ class PostController extends Controller
     public function viewPost($id){
         
         $post = Post::find($id);
-        return view('admin.edit',['post'=>$post,'id'=>$id]);
+        return view('admin.edit',['post'=>$post,'id'=>$id,'tags'=>Tag::all()]);
     }
     public function editPost(Request $request){
         $request->validate([
@@ -66,16 +67,22 @@ class PostController extends Controller
             'content'=>'required|min:10'
         ]);
         $post = Post::find($request->input('id'));
+        if(Gate::denies('update-post',$post)){
+            return redirect()->back();
+        }
         $post->title = $request->input('title');
         $post->content = $request->input('content');
         // $post->tags()->detach();
         // $post->tags()->attach($request->input('tags') === null ? [] : $request->input('tags'));
-        $post->sync($request->input('tags') === null ? [] : $request->input('tags'));
+        $post->tags()->sync($request->input('tags') === null ? [] : $request->input('tags'));
         $post->save();
         return redirect()->route('admin')->with('info','The post is edited successfully');
     }
     public function deletePost($id){
         $post = Post::find($id);
+        if(Gate::denies('update-post',$post)){
+            return redirect()->back();
+        }
         if ($post != null) {
             $post->delete();
             $post->likes()->delete();
@@ -92,10 +99,7 @@ class PostController extends Controller
                 $post->likes()->delete();
             }
         }
-       
-        return redirect()->route('admin');
-        
-        
+        return redirect()->route('admin');    
     }
 
     

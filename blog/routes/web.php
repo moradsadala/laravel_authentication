@@ -17,17 +17,20 @@ use App\Tag;
 
 Route::get('/', [
     'uses'=>'PostController@getIndex',
-    'as'=>'index'
+    'as'=>'index',
+    'middleware'=>'auth'
 ]);
 
 Route::get('post/{id}',[
     'uses'=>'PostController@getPost',
-    'as'=>'post'
+    'as'=>'post',
+    'middleware'=>'auth'
 ]);
 
 Route::get('post/{id}/like',[
     'uses'=>'PostController@addPostLike',
-    'as'=>'post_like'
+    'as'=>'post_like',
+    'middleware'=>'auth'
 ]);
 
 Route::get('about', function () {
@@ -36,11 +39,12 @@ Route::get('about', function () {
 
 
 ////////////////////////////////////////////// admin routes
-Route::group(['prefix'=>'admin'],function(){
+Route::group(['prefix'=>'admin','middleware'=>'auth'],function(){
 
     Route::get('',[
         'uses'=> 'PostController@getAdminIndex',
-        'as'=> 'admin'
+        'as'=> 'admin',
+        
     ]);
 
     Route::get('create', function () {return view('admin.create',['tags'=>Tag::all()]);})->name('create_admin');  
